@@ -22,11 +22,9 @@ function LoginForm() {
         e.preventDefault();
     
         try {
-            const response = await axios.post("http://localhost:1337/api/user/auth", formData, {
+            await axios.post("http://localhost:1337/api/user/auth", formData, {
                 withCredentials: true,
             });
-            console.log(response);
-            console.log(document.cookie);
             navigate("/");
         } catch(error) {
             console.log(error);
