@@ -47,9 +47,7 @@ const authUser = expressAsyncHandler(async (req, res) => {
 });
 
 const logoutUser = (req, res) => {
-    res.cookie('jwt', '', {
-        expires: new Date(0),
-    });
+    res.clearCookie("token");
     res.status(200).json({ message: "Logged out successfully" });
 };
 

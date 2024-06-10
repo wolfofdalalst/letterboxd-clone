@@ -8,8 +8,6 @@ userRouter.post("/", registerUser);
 userRouter.post("/auth", authUser);
 userRouter.post("/logout", logoutUser);
 
-userRouter
-    .route("/profile")
-    .get(protect, getUserProfile);
+userRouter.get("/profile", protect, getUserProfile);
 
 export default userRouter;
