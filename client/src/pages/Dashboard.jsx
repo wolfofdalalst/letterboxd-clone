@@ -5,7 +5,7 @@ import LogoutButton from "../components/LogoutButton";
 import MovieCard from "../components/MovieCard";
 import SearchBar from "../components/SearchBar";
 
-function Dashboard() {
+function Dashboard({ isLogged, updateLogged }) {
     const [userData, setUserData] = useState(null);
     const [movieArray, setMovieArray] = useState([]);
 
@@ -19,16 +19,18 @@ function Dashboard() {
                 setUserData(profileResponse.data);
                 const movieResponse = await axios.get("http://localhost:1337/api/movie", config);
                 setMovieArray(movieResponse.data);
+                updateLogged(true);
             } catch(error) {
+                updateLogged(false);
                 console.error('error while getting profile data', error);
                 navigate("/login");
             }
         };
         fetchData();
-    }, []);
+    }, [isLogged]);
 
     return (<>
-        <h1>Hello { userData === null ? "world" : userData.name }</h1>
+        <h1>Welcome back, { userData === null ? "world" : userData.name }. Here's what we've been watching...</h1>
         { movieArray.map((movie) => (
             <MovieCard
                 key={movie._id}
@@ -38,7 +40,7 @@ function Dashboard() {
             />
         )) }
         <SearchBar />
-        <LogoutButton />
+        <LogoutButton updateLogged={updateLogged}/>
     </>);
 }
 

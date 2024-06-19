@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Raleway:wght@600&family=Lato:wght@700&family=Open+Sans:wght@600&family=Roboto:wght@400&family=Source+Sans+Pro:wght@400&family=Noto+Sans:wght@400&family=Poppins:wght@500&display=swap');
+/* Google Fonts Usage:
+    1. Primary Heading (H1):
+    Font: Montserrat
+    Style: Bold (700)
+
+    2. Secondary Heading (H2):
+    Font: Raleway
+    Style: SemiBold (600)
+
+    3. Tertiary Heading (H3):
+    Font: Lato
+    Style: Bold (700)
+
+    4. Quaternary Heading (H4):
+    Font: Open Sans
+    Style: SemiBold (600)
+
+    5. Body Text:
+    Font: Roboto
+    Style: Regular (400)
+
+    6. Secondary Body Text / Small Text:
+    Font: Source Sans Pro
+    Style: Regular (400)
+
+    7. Captions / Footnotes:
+    Font: Noto Sans
+    Style: Regular (400)
+
+    8. Buttons / UI Elements:
+    Font: Poppins
+    Style: Medium (500)
+*/
+
+:root {
+    --sprite-url: url("https://s.ltrbxd.com/static/img/content-bg.2f106e08.png");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+	background: #14181c var(--sprite-url) 0 -1px repeat-x;
+}

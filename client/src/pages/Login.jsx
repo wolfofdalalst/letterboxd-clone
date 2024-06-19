@@ -50,7 +50,7 @@ function LoginForm() {
         />
         <button type="submit">Login</button>
     </form>
-    { error && <p>error</p> }
+    { error && <p>incorrect username or password</p> }
     </>
 }
 
