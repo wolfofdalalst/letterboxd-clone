@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function LogoutButton({ updateLogged }) {
+function LogoutButton({ updateLoginStatus }) {
     const navigate = useNavigate();
     async function handleLogout() {
         try {
@@ -9,14 +9,13 @@ function LogoutButton({ updateLogged }) {
                 withCredentials: true,
             });
             console.log(response);
+            updateLoginStatus(false);
             navigate("/login");
         } catch(error) {
             console.error(error);
-        } finally {
-            updateLogged(false)
         }
     }
-    return <button onClick={handleLogout}>Logout</button>
+    return <button className="logout-btn" onClick={handleLogout}>Logout</button>
 }
 
 export default LogoutButton;

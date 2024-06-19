@@ -3,21 +3,28 @@ import RegisterForm from "./pages/Register.jsx"
 import LoginForm from "./pages/Login.jsx"
 import Dashboard from "./pages/Dashboard.jsx"
 import Navbar from "./components/Navbar.jsx"
-
-import "./App.css";
 import { useState } from "react"
 
+import "./App.css";
+import 'react-toastify/dist/ReactToastify.css';
+
+// TODO: implement react spinners
+// BUG: upon reloading the state loginStatus is set to its default value, false
+
 function App() {
-  let [isLogged, setIsLogged] = useState(false);
+  let [loginStatus, setLoginStatus] = useState(false);
+
+  const updateLoginStatus = value => { setLoginStatus(value); }
 
   return (
     <>
-      <Navbar isLogged={isLogged}/>
+      <Navbar loginStatus={loginStatus} updateLoginStatus={updateLoginStatus} />
       <Routes>
-        <Route path="/" element={<Dashboard isLogged={isLogged} updateLogged={bool => {setIsLogged(bool)}}/>} />
-        <Route path="/login" element={<LoginForm />} />
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/login" element={<LoginForm updateLoginStatus={updateLoginStatus} />} />
         <Route path="/register" element={<RegisterForm />} />
       </Routes>
+      {/* TODO: create footer */}
     </>
   )
 }

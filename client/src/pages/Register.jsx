@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify"
+
+import toastConfig from "../config/toast.js";
 
 function RegisterForm() {
     const [formData, setFormData] = useState({
@@ -12,7 +15,7 @@ function RegisterForm() {
     const navigate = useNavigate();
 
     function handleChange(e) {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setFormData({
             ...formData,
             [name]: value,
@@ -21,44 +24,54 @@ function RegisterForm() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-    
+
         try {
             const response = await axios.post("http://localhost:1337/api/user", formData);
             console.log(response);
             navigate("/login");
-        } catch(error) {
-            console.log(error);
+        } catch (err) {
+            // TODO: handle different errors
+            console.log(err);
+            setFormData({
+                name: '',
+                email: '',
+                password: '',
+            });
             setError("Failed to register, please try again.");
+            toast.error("Failed to register, please try again.");
         }
     }
 
-    return <>
-    <form onSubmit={handleSubmit}>
-        <input
-            type="text" 
-            name="name"
-            placeholder="Enter full name"
-            onChange={handleChange}
-            value={formData.name}
-        />
-        <input 
-            type="email" 
-            name="email"
-            placeholder="Enter email address"
-            onChange={handleChange}
-            value={formData.email}
-        />    
-        <input
-            type="password"
-            name="password"
-            placeholder="Enter secure password"
-            onChange={handleChange}
-            value={formData.password}
-        />
-        <button type="submit">Submit</button>
-    </form>
-    { error && <p>error</p> }
-    </>
+    return (
+        <div className="form-container">
+            <form onSubmit={handleSubmit}>
+                <h1>Join Letterboxd</h1>
+                <label htmlFor="name">Full Name</label>
+                <input
+                    type="text"
+                    name="name"
+                    onChange={handleChange}
+                    value={formData.name}
+                />
+                <label htmlFor="email">Email address</label>
+                <input
+                    type="email"
+                    name="email"
+                    onChange={handleChange}
+                    value={formData.email}
+                />
+                <label htmlFor="password">Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    onChange={handleChange}
+                    value={formData.password}
+                />
+                <button type="submit">Submit</button>
+            </form>
+            <ToastContainer {...toastConfig} />
+        </div>
+    );
 }
 
 export default RegisterForm;

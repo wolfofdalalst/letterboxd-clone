@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/letterboxd-logo.png"
+import LogoutButton from "./LogoutButton";
 import "./Navbar.css";
 
-function Navbar({ isLogged }) {
+function Navbar({ loginStatus, updateLoginStatus }) {
     return (
         <div className="navbar">
             <div className="logo">
                 <img src={logo} alt="letterboxd-logo" />
                 <Link to="/">Letterboxd</Link>
             </div>
-            {!isLogged && (
+            {!loginStatus && (
                 <div className="auth-panel">
                     <Link to="/login">SIGN IN</Link>
                     <Link to="/register">CREATE ACCOUNT</Link>
@@ -22,6 +23,7 @@ function Navbar({ isLogged }) {
                 <Link to="/members">MEMBERS</Link>
                 <Link to="/journal">JOURNAL</Link>
             </div>
+            {loginStatus && <LogoutButton updateLoginStatus={updateLoginStatus} /> }
         </div>
     );
 }

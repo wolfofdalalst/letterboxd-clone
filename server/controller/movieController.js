@@ -50,9 +50,13 @@ const listMovies = expressAsyncHandler(async(req, res) => {
 const popularMovies = expressAsyncHandler(async(req, res) => {
     const response = await axios.get(TMDB_URL+"/movie/popular", api_config);
 
-    const movies = response.data.results;
+    const movies = response.data.results.slice(0, 10); // get 10 popular movies only
 
-    res.send(movies);
+    movies.map((movie) => {
+        movie.poster_path = "https://image.tmdb.org/t/p/original" + movie.poster_path; 
+    });
+
+    res.send(movies); // send 5 popular movies
 });
 
 const queryMovies = expressAsyncHandler(async(req, res) => {

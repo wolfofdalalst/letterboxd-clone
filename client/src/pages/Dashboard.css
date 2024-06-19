@@ -1,0 +1,39 @@
+:root {
+    --welcome-color: #678
+}
+
+.dashboard {
+    display: grid;
+    place-items: center;
+}
+
+.welcome {
+    font-size: 2.1vw;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    text-align: center;
+    color: var(--welcome-color);
+}
+
+.name {
+    color: azure;
+    text-decoration:underline;
+}
+
+.section-heading {
+    font-family: "Source Sans Pro";
+    color: var(--welcome-color);
+    border-bottom: 0.5px solid var(--welcome-color);
+    width: 80vw;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    
+}
+
+.popular-container {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr 1fr;
+    width: 80vw;
+}

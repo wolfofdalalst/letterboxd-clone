@@ -4,6 +4,13 @@
     --navbar-bg-color: #14181c;
     --logo-color: #eef0f2;
     --nav-link-color: #99aabb;
+    --font-size-base: 1.2vw;
+    --padding-base: 2vw;
+}
+
+body {
+    margin: 0;
+    font-family: 'Lato', sans-serif;
 }
 
 .navbar {
@@ -12,21 +19,21 @@
     align-items: center;
     background-color: var(--navbar-bg-color);
     color: whitesmoke;
-    padding: 15px 20vw;
+    padding: var(--padding-base) 20vw;
 }
 
 .logo {
     display: flex;
-    font-family: "Montserrat", sans-serif;
-    font-size: 1.7rem;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: calc(var(--font-size-base) * 1.67); /* Approximately 2vw */
 }
 
-.nav-links, .auth-panel{
-    font-size: 0.9rem;
-    font-family: "Lato", sans-serif;
+.nav-links, .auth-panel {
     display: flex;
     justify-content: space-around;
     width: 20vw;
+    font-size: var(--font-size-base);
 }
 
 .navbar a {
@@ -34,27 +41,18 @@
     text-decoration: none;
 }
 
-.navbar a:hover {
-    color: aliceblue;
-    transition: color .1s linear;
-}
-
-.logo > img {
+.logo img {
     width: 5vw;
-    padding: 5px;
+    padding: 0.5vw;
 }
 
-.logo > a {
+.logo a {
     color: var(--logo-color);
+    text-decoration: none;
+    margin-left: 0.5vw; /* Add space between the logo image and text */
 }
 
 .auth-panel {
-    margin-left: 75px;
+    margin-left: 5vw;
     width: 15vw;
-}
-
-.logout-btn {
-    margin: 0;
-    font-size: 1rem;
-    padding: 5px 10px;
 }

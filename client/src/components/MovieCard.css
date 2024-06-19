@@ -1,0 +1,22 @@
+.movie-card > img {
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+    display: block;
+}
+
+.movie-card > p {
+    color: aliceblue;
+    background-color: #445566;
+    border-radius: 0 0 5px 5px;
+    padding: 5px;
+    font-size: 0.6rem;
+    font-family: "Source Sans Pro", sans-serif;
+    white-space: nowrap;
+}
+
+.movie-card:hover {
+    cursor: pointer; 
+    outline: 3px solid whitesmoke;
+    border-radius: 5px;
+    transition: outline .1s linear; 
+}

@@ -1,11 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import LogoutButton from "../components/LogoutButton";
 import MovieCard from "../components/MovieCard";
 import SearchBar from "../components/SearchBar";
 
-function Dashboard({ isLogged, updateLogged }) {
+import "./Dashboard.css";
+
+function Dashboard() {
     const [userData, setUserData] = useState(null);
     const [movieArray, setMovieArray] = useState([]);
 
@@ -13,35 +15,42 @@ function Dashboard({ isLogged, updateLogged }) {
 
     const navigate = useNavigate();
     useEffect(() => {
-        const fetchData = async() => {
+        const fetchData = async () => {
             try {
                 const profileResponse = await axios.get("http://localhost:1337/api/user/profile", config);
                 setUserData(profileResponse.data);
-                const movieResponse = await axios.get("http://localhost:1337/api/movie", config);
+                const movieResponse = await axios.get("http://localhost:1337/api/movie/popular", config);
                 setMovieArray(movieResponse.data);
-                updateLogged(true);
-            } catch(error) {
-                updateLogged(false);
+            } catch (error) {
                 console.error('error while getting profile data', error);
                 navigate("/login");
             }
         };
         fetchData();
-    }, [isLogged]);
+    }, []);
 
-    return (<>
-        <h1>Welcome back, { userData === null ? "world" : userData.name }. Here's what we've been watching...</h1>
-        { movieArray.map((movie) => (
-            <MovieCard
-                key={movie._id}
-                name={movie.movieId}
-                rating={movie._id}
-                summary={movie.summary}
-            />
-        )) }
+    useEffect(() => {
+        movieArray.forEach(value => {
+            console.log(value);
+        })
+        // console.table(userData);
+    }, [movieArray, userData]);
+
+    return (<div className="dashboard">
+        <h1 className="welcome">Welcome back, <span className="name">{userData === null ? "world" : userData.name}</span>. Here&apos;s what we&apos;ve been watching...</h1>
+        <p className="section-heading">popular on letterboxd</p>
+        <div className="popular-container">
+            {movieArray.map((movie, index) => {
+                return <MovieCard
+                    key={index}
+                    name={movie.title}
+                    poster_path={movie.poster_path}
+                    year={new Date(movie.release_date).getFullYear()}
+                />
+            })}
+        </div>
         <SearchBar />
-        <LogoutButton updateLogged={updateLogged}/>
-    </>);
+    </div>);
 }
 
 export default Dashboard;

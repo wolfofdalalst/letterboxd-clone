@@ -1,12 +1,12 @@
-// eslint-disable-next-line react/prop-types
-function MovieCard({ name, rating, summary }) {
+import "./MovieCard.css";
+
+function MovieCard({ name, year, poster_path }) {
     return (
         <div className="movie-card">
-            <h1>{name}</h1>
-            <p>{rating}</p>
-            <p>{summary}</p>
+            <img src={poster_path} />
+            <p>{name} ({year})</p>
         </div>
-    ); 
+    );
 }
 
 export default MovieCard;
