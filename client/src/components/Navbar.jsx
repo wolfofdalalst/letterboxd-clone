@@ -3,7 +3,6 @@ import logo from '../assets/letterboxd-logo.png';
 import LogoutButton from './LogoutButton';
 import './Navbar.css';
 
-import PropTypes from 'prop-types';
 import SearchBar from './SearchBar';
 
 function Navbar({ loginStatus, updateIsLogged, updateSearch }) {
@@ -37,11 +36,5 @@ function Navbar({ loginStatus, updateIsLogged, updateSearch }) {
     </div>
   );
 }
-
-Navbar.propTypes = {
-  loginStatus: PropTypes.bool,
-  updateIsLogged: PropTypes.func,
-  updateSearch: PropTypes.func,
-};
 
 export default Navbar;

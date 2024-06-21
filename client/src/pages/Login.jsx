@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import PropTypes from 'prop-types';
 
 import toastConfig from '../config/toast.js';
 
@@ -68,9 +67,5 @@ function LoginForm({ updateIsLogged }) {
     </div>
   );
 }
-
-LoginForm.propTypes = {
-  updateIsLogged: PropTypes.func.isRequired,
-};
 
 export default LoginForm;

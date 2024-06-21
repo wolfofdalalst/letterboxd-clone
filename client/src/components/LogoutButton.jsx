@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 function LogoutButton({ updateIsLogged }) {
   const navigate = useNavigate();
@@ -30,9 +29,5 @@ function LogoutButton({ updateIsLogged }) {
     </button>
   );
 }
-
-LogoutButton.propTypes = {
-  updateIsLogged: PropTypes.func,
-};
 
 export default LogoutButton;
