@@ -34,84 +34,84 @@
 */
 
 :root {
-    --sprite-url: url("https://s.ltrbxd.com/static/img/content-bg.2f106e08.png");
-    --form-bg-color: #101316;
-    --login-btn-color: #00ac1c;
-    --login-btn-hvr-color: #009d1a;
-    --input-bg-color: #2c3440;
-    --label-color: #678;
+  --sprite-url: url('https://s.ltrbxd.com/static/img/content-bg.2f106e08.png');
+  --form-bg-color: #101316;
+  --login-btn-color: #00ac1c;
+  --login-btn-hvr-color: #009d1a;
+  --input-bg-color: #2c3440;
+  --label-color: #678;
 }
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-	background: #14181c var(--sprite-url) 0 -1px repeat-x;
+  background: #14181c var(--sprite-url) 0 -1px repeat-x;
 }
 
 h1 {
-    font-family: "Montserrat", sans-serif;
-    color: whitesmoke; 
-    margin-bottom: 20px;
+  font-family: 'Montserrat', sans-serif;
+  color: whitesmoke;
+  margin-bottom: 20px;
 }
 
 .form-container {
-    display: grid;
-    height: 100vh;
-    place-items: center;
+  display: grid;
+  height: 100vh;
+  place-items: center;
 }
 
 form {
-    width: 30vw;
-    display: grid;
-    background-color: var(--form-bg-color);
-    padding: 40px 50px;
-    border-radius: 10px;
+  width: 30vw;
+  display: grid;
+  background-color: var(--form-bg-color);
+  padding: 40px 50px;
+  border-radius: 10px;
 }
 
 label {
-    color: var(--label-color);
-    font-family: "Poppins", sans-serif;
+  color: var(--label-color);
+  font-family: 'Poppins', sans-serif;
 }
 
 input {
-    font-size: 1.05rem;
-    height: 30px;
-    border: none;
-    padding: 5px;
-    border-radius: 5px;
-    background-color: var(--input-bg-color);
-    margin-top: 5px;
-    margin-bottom: 20px;
+  font-size: 1.05rem;
+  height: 30px;
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: var(--input-bg-color);
+  margin-top: 5px;
+  margin-bottom: 20px;
 }
 
 input:focus {
-    background-color: aliceblue;
+  background-color: aliceblue;
 }
 
 button {
-    font-family: "Poppins", sans-serif;
-    color: whitesmoke;
-    background-color: var(--login-btn-color);
-    box-shadow: inset 0 1px 0 hsla(0,0%,100%,.3);
-    border: none;
-    padding: 1vh 1.5vw;
-    border-radius: 5px;
-    cursor: pointer;
-    padding: 10px;
-    margin-top: 10px;
-    font-size: 1.05rem;
+  font-family: 'Poppins', sans-serif;
+  color: whitesmoke;
+  background-color: var(--login-btn-color);
+  box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, 0.3);
+  border: none;
+  padding: 1vh 1.5vw;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 1.05rem;
 }
 
 button:hover {
-    background-color: var(--login-btn-hvr-color);
+  background-color: var(--login-btn-hvr-color);
 }
 
 .error {
-    font-family: "Noto Sans";
-    color: red;
-    text-align: center;
-    margin-top: 10px;
+  font-family: 'Noto Sans';
+  color: red;
+  text-align: center;
+  margin-top: 10px;
 }

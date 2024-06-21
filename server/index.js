@@ -1,26 +1,28 @@
-import express from "express";
-import cors from "cors";
-import "dotenv/config";
+import express from 'express';
+import cors from 'cors';
+import 'dotenv/config';
 
-import connectDB from "./config/db.js";
-import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
-import userRouter from "./routes/userRoute.js";
-import cookieParser from "cookie-parser";
-import movieRouter from "./routes/movieRoute.js";
+import connectDB from './config/db.js';
+import { errorHandler, notFound } from './middleware/errorMiddleware.js';
+import userRouter from './routes/userRoute.js';
+import cookieParser from 'cookie-parser';
+import movieRouter from './routes/movieRoute.js';
 
 connectDB();
 
 const app = express();
 const port = process.env.PORT;
 
-app.use(cors({
+app.use(
+  cors({
     credentials: true,
-}));
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/user", userRouter);
-app.use("/api/movie", movieRouter);
+app.use('/api/user', userRouter);
+app.use('/api/movie', movieRouter);
 
 app.use(notFound);
 app.use(errorHandler);
