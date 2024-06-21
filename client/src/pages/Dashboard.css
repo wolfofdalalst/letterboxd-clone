@@ -25,7 +25,6 @@
   color: var(--welcome-color);
   border-bottom: 0.5px solid var(--welcome-color);
   width: 80vw;
-  margin-bottom: 15px;
   text-transform: uppercase;
 }
 
@@ -35,4 +34,5 @@
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: 1fr 1fr;
   width: 80vw;
+  margin: 20px 0;
 }

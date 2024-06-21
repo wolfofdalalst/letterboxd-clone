@@ -1,0 +1,16 @@
+.search-page {
+  display: grid;
+  grid-template-columns: 1fr 6fr 2fr 1fr;
+}
+
+.search-result {
+    grid-column: 2;
+}
+
+.search-heading {
+  font-family: 'Source Sans Pro';
+  color: var(--welcome-color);
+  border-bottom: 0.5px solid var(--welcome-color);
+  text-transform: uppercase;
+  margin: 0 15px;
+}

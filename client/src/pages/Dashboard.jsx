@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MovieCard from '../components/MovieCard';
-import SearchBar from '../components/SearchBar';
 
 import './Dashboard.css';
 
@@ -57,7 +56,6 @@ function Dashboard() {
           );
         })}
       </div>
-      <SearchBar />
     </div>
   );
 }

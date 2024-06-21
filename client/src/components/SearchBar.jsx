@@ -1,37 +1,54 @@
-import { useEffect, useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
-import axios from 'axios';
+import { useState } from 'react';
+import { FaSearch, FaPlus } from 'react-icons/fa';
+
+import './SearchBar.css';
+import { useNavigate } from 'react-router-dom';
 
 function SearchBar({ updateSearch }) {
   const [value, setValue] = useState('');
+  const [searchClicked, setSearchClicked] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // array that contains the suggestions
-        const { data } = await axios.get(
-          'http://localhost:1337/api/movie/suggestion?search=' + value,
-          { withCredentials: true }
-        );
-        updateSearch(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, [value]);
+  const navigate = useNavigate();
+
+  const toggleSearch = () => {
+    setValue('');
+    setSearchClicked((prev) => !prev);
+  };
+
+  const handleKeyDown = async (event) => {
+    if (event.key === 'Enter') {
+      updateSearch(value);
+      setSearchClicked(false);
+      navigate("/search");
+    } else if (event.key === 'Escape') {
+      setSearchClicked(false);
+    }
+  }
 
   return (
     <>
-      <FaSearch className='search-icon' />
-      <input
-        type='text'
-        placeholder='Search for movie...'
-        value={value}
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
-      />
+      {!searchClicked ? (
+        <FaSearch
+          className='search-icon'
+          onClick={toggleSearch}
+        />
+      ) : (
+        <>
+          <FaPlus
+            className='close-icon'
+            onClick={toggleSearch}
+          />
+          <input
+            className='search-bar'
+            type='text'
+            value={value}
+            onChange={(e) => {
+              setValue(e.target.value);
+            }}
+            onKeyDown={handleKeyDown}
+          />
+        </>
+      )}
     </>
   );
 }
