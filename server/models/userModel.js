@@ -17,6 +17,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    liked: Array,
+    watched: Array,
+    watchlist: Array,
   },
   {
     collection: 'users',

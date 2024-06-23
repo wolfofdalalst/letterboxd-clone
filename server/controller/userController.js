@@ -62,4 +62,58 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser, authUser, logoutUser, getUserProfile };
+const addMovieAction = expressAsyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    throw new Error('User does not exists');
+  }
+
+  const { liked, watched, watchlist } = req.body;
+
+  if (liked !== undefined) {
+    user.liked.unshift(liked);
+  }
+  if (watched !== undefined) {
+    user.watched.unshift(watched);
+  }
+  if (watchlist !== undefined) {
+    user.watchlist.unshift(watchlist);
+  }
+
+  await user.save();
+
+  res.json(user);
+});
+
+const removeMovieAction = expressAsyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    throw new Error('User does not exists');
+  }
+
+  const { liked, watched, watchlist } = req.body;
+
+  if (liked !== undefined) {
+    user.liked = user.liked.filter((item) => item !== liked);
+  }
+  if (watched !== undefined) {
+    user.watched = user.watched.filter((item) => item !== watched);
+  }
+  if (watchlist !== undefined) {
+    user.watchlist = user.watchlist.filter((item) => item !== watchlist);
+  }
+
+  await user.save();
+  res.json(user);
+});
+
+export {
+  registerUser,
+  authUser,
+  logoutUser,
+  getUserProfile,
+  addMovieAction,
+  removeMovieAction,
+};

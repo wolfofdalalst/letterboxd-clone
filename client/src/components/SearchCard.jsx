@@ -20,15 +20,18 @@
 }
 */
 
+import { Link } from 'react-router-dom';
 import './SearchCard.css';
 
 function SearchCard({ movie }) {
   return (
     <div className='search-card'>
-      <img
-        src={movie.poster_path}
-        className='movie-poster'
-      />
+      <Link to={`/movie/${movie.id}`} className='movie-link'>
+        <img
+          src={movie.poster_path}
+          className='movie-poster'
+        />
+      </Link>
       <p className='movie-title'>
         {movie.title}
         <span className='movie-year'>

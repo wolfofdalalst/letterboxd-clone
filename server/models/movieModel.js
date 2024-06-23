@@ -11,7 +11,9 @@ const movieSchema = new mongoose.Schema(
       min: 0,
       max: 5,
     },
-    summary: String,
+    watched: Boolean,
+    liked: Boolean,
+    watchlist: Boolean,
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

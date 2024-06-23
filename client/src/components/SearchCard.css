@@ -7,13 +7,15 @@
   border-bottom: 0.5px solid var(--welcome-color);
 }
 
-.movie-poster {
+.movie-link {
   grid-row: span 2;
+  text-align: center;
+}
+
+.movie-poster {
   width: 80%;
-  object-fit: contain;
+  object-fit:cover;
   border-radius: 5px;
-  place-self: center;
-  margin: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
 }
 

@@ -28,11 +28,19 @@
   text-transform: uppercase;
 }
 
-.popular-container {
+.popular-container, .activity-container {
   display: grid;
   gap: 15px;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: 1fr 1fr;
   width: 80vw;
   margin: 20px 0;
+}
+
+.activity-container {
+  grid-template-rows: 1fr;
+}
+
+.bolt {
+  font-size: 0.8rem;
 }

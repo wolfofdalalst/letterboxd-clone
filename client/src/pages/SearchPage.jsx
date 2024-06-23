@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState  } from 'react';
 import axios from 'axios';
 
 import './SearchPage.css';
@@ -6,7 +6,7 @@ import SearchCard from '../components/SearchCard';
 
 function SearchPage({ search }) {
   const [movieArray, setMovieArray] = useState([]);
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -21,6 +21,7 @@ function SearchPage({ search }) {
       }
     };
     fetchData();
+
   }, [search]);
 
   return (

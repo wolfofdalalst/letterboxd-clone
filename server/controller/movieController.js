@@ -9,6 +9,7 @@ const TMDB_BEARER_TOKEN = process.env.TMDB_BEARER_TOKEN;
 
 const imageUrlMap = (movie) => {
   movie.poster_path = TMDB_IMG_URL + movie.poster_path;
+  movie.backdrop_path = TMDB_IMG_URL + movie.backdrop_path;
 };
 
 const api_config = {
@@ -21,7 +22,7 @@ const api_config = {
 const createMovie = expressAsyncHandler(async (req, res) => {
   const userId = req.user._id;
 
-  const { movieId, rating, summary } = req.body;
+  const { movieId, rating, summary, watched, liked, watchlist } = req.body;
 
   const movieExists = await Movie.findOne({ movieId: movieId, user: userId });
 
@@ -33,6 +34,9 @@ const createMovie = expressAsyncHandler(async (req, res) => {
   const movie = await Movie.create({
     movieId: movieId,
     rating: rating,
+    watched: watched,
+    liked: liked,
+    watchlist: watchlist,
     summary: summary,
     user: userId,
   });
@@ -78,6 +82,18 @@ const queryMovies = expressAsyncHandler(async (req, res) => {
   res.send(movies);
 });
 
+const movieDetail = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const response = await axios.get(TMDB_URL + '/movie/' + id, api_config);
+
+  const movie = response.data;
+
+  imageUrlMap(movie);
+
+  res.send(movie);
+});
+
 // TODO: implement update and delete operation
 
-export { createMovie, listMovies, popularMovies, queryMovies };
+export { createMovie, listMovies, popularMovies, queryMovies, movieDetail };

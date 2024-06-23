@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import SearchPage from './pages/SearchPage.jsx';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import MoviePage from './pages/MoviePage.jsx';
 
 // TODO: implement react spinners
 // BUG: upon reloading the state loginStatus is set to its default value, false
@@ -56,6 +57,10 @@ function App() {
         <Route
           path='/search'
           element={<SearchPage search={search} />}
+        />
+        <Route
+          path='/movie/:id'
+          element={<MoviePage />}
         />
       </Routes>
       {/* TODO: create footer */}
