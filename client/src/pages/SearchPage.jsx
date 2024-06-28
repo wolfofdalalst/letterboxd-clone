@@ -11,7 +11,7 @@ function SearchPage({ search }) {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          'http://localhost:1337/api/movie/suggestion?search=' + search,
+          'http://localhost:1337/api/movie/search/' + search,
           { withCredentials: true }
         );
         console.log(data);

@@ -1,99 +1,66 @@
 import axios from 'axios';
 import expressAsyncHandler from 'express-async-handler';
 import 'dotenv/config';
-import Movie from '../models/movieModel.js';
+import { apiRequestConfig, urlIndex } from '../config.js';
 
-const TMDB_URL = 'https://api.themoviedb.org/3';
-const TMDB_IMG_URL = 'https://image.tmdb.org/t/p/original';
-const TMDB_BEARER_TOKEN = process.env.TMDB_BEARER_TOKEN;
-
+/**
+ * Maps the movie poster and backdrop paths to full URLs
+ * @param {Object} movie - The movie object
+ */
 const imageUrlMap = (movie) => {
-  movie.poster_path = TMDB_IMG_URL + movie.poster_path;
-  movie.backdrop_path = TMDB_IMG_URL + movie.backdrop_path;
+  movie.poster_path = urlIndex.tmdbImage + movie.poster_path;
+  movie.backdrop_path = urlIndex.tmdbImage + movie.backdrop_path;
 };
 
-const api_config = {
-  headers: {
-    Accept: 'application/json',
-    Authorization: `Bearer ${TMDB_BEARER_TOKEN}`,
-  },
-};
-
-const createMovie = expressAsyncHandler(async (req, res) => {
-  const userId = req.user._id;
-
-  const { movieId, rating, summary, watched, liked, watchlist } = req.body;
-
-  const movieExists = await Movie.findOne({ movieId: movieId, user: userId });
-
-  if (movieExists) {
-    res.status(400);
-    throw new Error('Movie already exists');
-  }
-
-  const movie = await Movie.create({
-    movieId: movieId,
-    rating: rating,
-    watched: watched,
-    liked: liked,
-    watchlist: watchlist,
-    summary: summary,
-    user: userId,
-  });
-
-  if (movie) {
-    // TODO: change this in the future
-    res.send(movie);
-  } else {
-    res.status(400);
-    throw new Error('Incorrect movie field inputs');
-  }
-});
-
-// TODO: format the response
-const listMovies = expressAsyncHandler(async (req, res) => {
-  const movies = await Movie.find({ user: req.user._id });
-
-  res.send(movies);
-});
-
+/**
+ * Returns a list of popular movies
+ * @route GET /movie/popular
+ * @access Private
+ */
 const popularMovies = expressAsyncHandler(async (req, res) => {
-  const response = await axios.get(TMDB_URL + '/movie/popular', api_config);
-
-  const movies = response.data.results.slice(0, 10); // get 10 popular movies only
-
+  const {
+    data: { results },
+  } = await axios.get(`${urlIndex.tmdb}/movie/popular`, apiRequestConfig);
+  const movies = results.slice(0, 10);
   movies.map(imageUrlMap);
-
-  res.send(movies); // send 5 popular movies
+  res.json(movies);
 });
 
-const queryMovies = expressAsyncHandler(async (req, res) => {
-  const searchQuery = encodeURIComponent(req.query.search ?? 'Morbius');
-
-  const response = await axios.get(
-    TMDB_URL + '/search/movie?query=' + searchQuery,
-    api_config
+/**
+ * Search for movies by name
+ * @route GET /movie/search/:name
+ * @access Private
+ * @param {string} name - The movie name
+ */
+const searchMovies = expressAsyncHandler(async (req, res) => {
+  const { name } = req.params;
+  const searchQuery = encodeURIComponent(name ?? 'Morbius');
+  const {
+    data: { results: movies },
+  } = await axios.get(
+    `${urlIndex.tmdb}/search/movie?query=${searchQuery}`,
+    apiRequestConfig
   );
-
-  const movies = response.data.results;
   movies.sort((a, b) => b.popularity - a.popularity);
   movies.map(imageUrlMap);
-
-  res.send(movies);
+  res.json(movies);
 });
 
+/**
+ * Movie details by ID
+ * @route GET /movie/details/:id
+ * @access Private
+ * @param {number} id - The movie ID
+ */
 const movieDetail = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  const response = await axios.get(TMDB_URL + '/movie/' + id, api_config);
-
-  const movie = response.data;
-
+  const { data: movie } = await axios.get(
+    `${urlIndex.tmdb}/movie/${id}`,
+    apiRequestConfig
+  );
   imageUrlMap(movie);
-
   res.send(movie);
 });
 
-// TODO: implement update and delete operation
-
-export { createMovie, listMovies, popularMovies, queryMovies, movieDetail };
+export { popularMovies, searchMovies, movieDetail };

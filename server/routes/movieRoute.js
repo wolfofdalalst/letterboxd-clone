@@ -1,25 +1,18 @@
 import { Router } from 'express';
 import {
-  createMovie,
-  listMovies,
   movieDetail,
   popularMovies,
-  queryMovies,
+  searchMovies,
 } from '../controller/movieController.js';
 import protect from '../middleware/authMiddleware.js';
 
 const movieRouter = Router();
 
+// Protect all the routes with authentication middleware
 movieRouter.use(protect);
 
-// movieRouter.route("/")
-//   .get(listMovies)
-//    .post(createMovie);
-
-movieRouter.get('/', listMovies);
-movieRouter.post('/', createMovie);
 movieRouter.get('/popular', popularMovies);
-movieRouter.get('/suggestion', queryMovies); // ?search=
+movieRouter.get('/search/:name', searchMovies);
 movieRouter.get('/details/:id', movieDetail);
 
 export default movieRouter;

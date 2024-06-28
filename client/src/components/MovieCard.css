@@ -6,7 +6,7 @@
 
 .movie-card > p {
   color: aliceblue;
-  background-color: #445566;
+  background-color: #060708;
   border-radius: 0 0 5px 5px;
   padding: 5px;
   font-size: 0.6rem;
@@ -16,7 +16,7 @@
 
 .movie-card:hover {
   cursor: pointer;
-  outline: 3px solid whitesmoke;
+  outline: 3px solid #00e054;
   border-radius: 5px;
   transition: outline 0.1s linear;
 }

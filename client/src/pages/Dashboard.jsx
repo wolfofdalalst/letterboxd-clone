@@ -47,13 +47,15 @@ function Dashboard() {
         watchedArray = await Promise.all(
           watchedArray.map(
             async (value) =>
-              (await axios.get(
-                `http://localhost:1337/api/movie/details/${value}`,
-                { withCredentials: true }
-              )).data
+              (
+                await axios.get(
+                  `http://localhost:1337/api/movie/details/${value}`,
+                  { withCredentials: true }
+                )
+              ).data
           )
         );
-        setActivityArray(watchedArray.slice(0,5));
+        setActivityArray(watchedArray.slice(0, 5));
       } catch (error) {
         console.error(error);
       }
@@ -73,7 +75,9 @@ function Dashboard() {
       </h1>
       {activityArray.length > 0 && (
         <>
-          <p className='section-heading'>your activity <FaBolt className='bolt'/></p>
+          <p className='section-heading'>
+            your activity <FaBolt className='bolt' />
+          </p>
           <div className='activity-container'>
             {activityArray.map((movie, index) => (
               <MovieCard

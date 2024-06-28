@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+// Pre-save middleware for password hashing
 userSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
     const salt = await bcrypt.genSalt(10);
@@ -35,6 +36,7 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+// Method to compare password
 userSchema.methods.comparePassword = function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };

@@ -122,7 +122,6 @@ function MoviePage() {
     };
     fetchUserData();
     fetchMovieData();
-    console.log(rating);
   }, [id]);
 
   const handleWatch = async () => {

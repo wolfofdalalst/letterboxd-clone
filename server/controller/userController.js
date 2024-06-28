@@ -3,6 +3,11 @@ import User from '../models/userModel.js';
 import generateToken from '../utils/generateToken.js';
 import { compare } from 'bcrypt';
 
+/**
+ * Resgister a new user
+ * @route POST /users/register
+ * @access Public
+ */
 const registerUser = expressAsyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -15,19 +20,18 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 
   const user = await User.create({ name, email, password });
 
-  if (user) {
-    generateToken(res, user._id);
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-    });
-  } else {
-    res.status(401);
-    throw new Error('Cannot create user');
-  }
+  res.status(201).json({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+  });
 });
 
+/**
+ * Authenticate user and get token
+ * @route POST /user/auth
+ * @access Public
+ */
 const authUser = expressAsyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -46,11 +50,21 @@ const authUser = expressAsyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * Logout user
+ * @route POST /user/logout
+ * @access Private
+ */
 const logoutUser = (req, res) => {
   res.clearCookie('token');
-  res.status(200).json({ message: 'Logged out successfully' });
+  res.json({ message: 'Logged out successfully' });
 };
 
+/**
+ * Return user profile
+ * @route GET /user/profile
+ * @access Private
+ */
 const getUserProfile = expressAsyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -58,10 +72,15 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
     res.json(user);
   } else {
     res.status(404);
-    res.json('User not found');
+    throw new Error('User not found');
   }
 });
 
+/**
+ * Add a movie action to user's list (liked, watched, watchlist)
+ * @route POST /user/profile
+ * @access Private
+ */
 const addMovieAction = expressAsyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -71,21 +90,24 @@ const addMovieAction = expressAsyncHandler(async (req, res) => {
 
   const { liked, watched, watchlist } = req.body;
 
-  if (liked !== undefined) {
-    user.liked.unshift(liked);
-  }
-  if (watched !== undefined) {
-    user.watched.unshift(watched);
-  }
-  if (watchlist !== undefined) {
-    user.watchlist.unshift(watchlist);
-  }
+  if (liked !== undefined) user.liked.unshift(liked);
+  if (watched !== undefined) user.watched.unshift(watched);
+  if (watchlist !== undefined) user.watchlist.unshift(watchlist);
 
   await user.save();
 
-  res.json(user);
+  res.json({
+    liked: user.liked,
+    watched: user.watched,
+    watchlist: user.watchlist,
+  });
 });
 
+/**
+ * Remove a movie action from user's list (liked, watched, watchlist)
+ * @route PATCH /movie/profile
+ * @access Private
+ */
 const removeMovieAction = expressAsyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -95,18 +117,20 @@ const removeMovieAction = expressAsyncHandler(async (req, res) => {
 
   const { liked, watched, watchlist } = req.body;
 
-  if (liked !== undefined) {
+  if (liked !== undefined)
     user.liked = user.liked.filter((item) => item !== liked);
-  }
-  if (watched !== undefined) {
+  if (watched !== undefined)
     user.watched = user.watched.filter((item) => item !== watched);
-  }
-  if (watchlist !== undefined) {
+  if (watchlist !== undefined)
     user.watchlist = user.watchlist.filter((item) => item !== watchlist);
-  }
 
   await user.save();
-  res.json(user);
+
+  res.json({
+    liked: user.liked,
+    watched: user.watched,
+    watchlist: user.watchlist,
+  });
 });
 
 export {

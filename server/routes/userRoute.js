@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import {
   addMovieAction,
   authUser,
@@ -13,10 +14,12 @@ const userRouter = Router();
 
 userRouter.post('/', registerUser);
 userRouter.post('/auth', authUser);
-userRouter.post('/logout', logoutUser);
+userRouter.post('/logout', protect, logoutUser);
 
-userRouter.get('/profile', protect, getUserProfile);
-userRouter.post('/profile', protect, addMovieAction);
-userRouter.patch('/profile', protect, removeMovieAction);
+userRouter
+  .route('/profile')
+  .get(protect, getUserProfile)
+  .post(protect, addMovieAction)
+  .patch(protect, removeMovieAction);
 
 export default userRouter;
