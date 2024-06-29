@@ -5,7 +5,7 @@
 }
 
 .movie-card > p {
-  color: aliceblue;
+  color: var(--secondary-color);
   background-color: #060708;
   border-radius: 0 0 5px 5px;
   padding: 5px;

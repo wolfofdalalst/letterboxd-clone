@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import logo from '../assets/letterboxd-logo.png';
-import LogoutButton from './LogoutButton';
+import logo from '../../assets/letterboxd-logo.png';
+import LogoutButton from '../LogoutButton/LogoutButton';
+import SearchBar from './SearchBar/SearchBar';
+
 import './Navbar.css';
 
-import SearchBar from './SearchBar';
-
-function Navbar({ loginStatus, updateIsLogged, updateSearch }) {
+const Navbar = ({ loginStatus, updateIsLogged, updateSearch }) => {
   return (
     <div className='navbar'>
       <div className='logo'>
@@ -35,6 +35,6 @@ function Navbar({ loginStatus, updateIsLogged, updateSearch }) {
       )}
     </div>
   );
-}
+};
 
 export default Navbar;

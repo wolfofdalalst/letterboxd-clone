@@ -2,12 +2,12 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import MovieCard from '../components/MovieCard';
+import MovieCard from './MovieCard/MovieCard';
 
 import './Dashboard.css';
 import { FaBolt } from 'react-icons/fa';
 
-function Dashboard() {
+const Dashboard = () => {
   const [userData, setUserData] = useState(null);
   const [movieArray, setMovieArray] = useState([]);
   const [activityArray, setActivityArray] = useState([]);
@@ -107,6 +107,6 @@ function Dashboard() {
       </div>
     </div>
   );
-}
+};
 
 export default Dashboard;

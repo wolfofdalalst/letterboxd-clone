@@ -1,12 +1,12 @@
-import { useEffect, useState  } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import './SearchPage.css';
-import SearchCard from '../components/SearchCard';
+import SearchMovieCard from './SearchMovieCard/SearchMovieCard';
 
-function SearchPage({ search }) {
+const SearchPage = ({ search }) => {
   const [movieArray, setMovieArray] = useState([]);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -21,15 +21,16 @@ function SearchPage({ search }) {
       }
     };
     fetchData();
-
   }, [search]);
 
   return (
     <div className='search-page'>
       <div className='search-result'>
-        <p className='search-heading'>Results matching for &apos;{search}&apos;</p>
+        <p className='search-heading'>
+          Results matching for &apos;{search}&apos;
+        </p>
         {movieArray.map((movie, index) => (
-          <SearchCard
+          <SearchMovieCard
             key={index}
             movie={movie}
           />
@@ -40,6 +41,6 @@ function SearchPage({ search }) {
       </div>
     </div>
   );
-}
+};
 
 export default SearchPage;

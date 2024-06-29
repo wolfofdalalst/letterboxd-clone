@@ -1,18 +1,13 @@
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import AuthService from '../../api/AuthService';
 
-function LogoutButton({ updateIsLogged }) {
+import './LogoutButton.css';
+
+const LogoutButton = ({ updateIsLogged }) => {
   const navigate = useNavigate();
   async function handleLogout() {
     try {
-      const response = await axios.post(
-        'http://localhost:1337/api/user/logout',
-        {},
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(response);
+      await AuthService.logout();
       navigate('/login');
     } catch (error) {
       console.error(error);
@@ -22,7 +17,7 @@ function LogoutButton({ updateIsLogged }) {
   }
   return (
     <button
-      className='logout-btn'
+      className='logout'
       onClick={handleLogout}
     >
       Logout

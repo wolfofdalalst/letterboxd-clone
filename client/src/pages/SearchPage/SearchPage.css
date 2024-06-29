@@ -4,13 +4,13 @@
 }
 
 .search-result {
-    grid-column: 2;
+  grid-column: 2;
 }
 
 .search-heading {
   font-family: 'Source Sans Pro';
-  color: var(--welcome-color);
-  border-bottom: 0.5px solid var(--welcome-color);
+  color: var(--primary-color);
+  border-bottom: 0.5px solid var(--primary-color);
   text-transform: uppercase;
   margin: 0 15px;
 }

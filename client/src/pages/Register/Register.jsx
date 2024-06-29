@@ -1,13 +1,13 @@
-/* eslint-disable react/prop-types */
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
-import toastConfig from '../config/toast.js';
+import toastConfig from '../../config/toastConfig';
 
-function LoginForm({ updateIsLogged }) {
+const RegisterForm = () => {
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
     password: '',
   });
@@ -21,33 +21,43 @@ function LoginForm({ updateIsLogged }) {
       ...formData,
       [name]: value,
     });
-    setError(null);
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:1337/api/user/auth', formData, {
-        withCredentials: true,
-      });
-      updateIsLogged(true);
-      navigate('/');
+      const response = await axios.post(
+        'http://localhost:1337/api/user',
+        formData
+      );
+      console.log(response);
+      navigate('/login');
     } catch (err) {
-      // TODO: check for different cases of errors
-      console.error('error while logging', err);
-      setError('incorrect username or password');
-      setFormData({ email: '', password: '' });
-      toast.error('incorrect username or password');
-      updateIsLogged(false);
+      // TODO: handle different errors
+      console.log(err);
+      setFormData({
+        name: '',
+        email: '',
+        password: '',
+      });
+      setError('Failed to register, please try again.');
+      toast.error('Failed to register, please try again.');
     }
   }
 
   return (
     <div className='form-container'>
       <form onSubmit={handleSubmit}>
-        <h1>Get Started</h1>
-        <label htmlFor='email'>Email</label>
+        <h1>Join Letterboxd</h1>
+        <label htmlFor='name'>Full Name</label>
+        <input
+          type='text'
+          name='name'
+          onChange={handleChange}
+          value={formData.name}
+        />
+        <label htmlFor='email'>Email address</label>
         <input
           type='email'
           name='email'
@@ -61,11 +71,11 @@ function LoginForm({ updateIsLogged }) {
           onChange={handleChange}
           value={formData.password}
         />
-        <button type='submit'>SIGN IN</button>
+        <button type='submit'>Submit</button>
       </form>
       <ToastContainer {...toastConfig} />
     </div>
   );
-}
+};
 
-export default LoginForm;
+export default RegisterForm;

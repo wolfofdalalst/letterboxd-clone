@@ -1,46 +1,58 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Raleway:wght@600&family=Lato:wght@700&family=Open+Sans:wght@600&family=Roboto:wght@400&family=Source+Sans+Pro:wght@400&family=Noto+Sans:wght@400&family=Poppins:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@900&family=Roboto:wght@100;400&display=swap');
-/* Google Fonts Usage:
-    1. Primary Heading (H1):
-    Font: Montserrat
-    Style: Bold (700)
+/*
+  Montserrat 
+    Where to use: Headers, Titles, Emphasis text
+    Default style: font-weight: 700
 
-    2. Secondary Heading (H2):
-    Font: Raleway
-    Style: SemiBold (600)
+  Raleway 
+    Where to use: Subheaders, Highlighted text
+    Default style: font-weight: 600
 
-    3. Tertiary Heading (H3):
-    Font: Lato
-    Style: Bold (700)
+  Lato 
+    Where to use: Emphasis text, Buttons, Call-to-action elements
+    Default style: font-weight: 700
 
-    4. Quaternary Heading (H4):
-    Font: Open Sans
-    Style: SemiBold (600)
+  Open Sans 
+    Where to use: Paragraphs, Main content
+    Default style: font-weight: 600
 
-    5. Body Text:
-    Font: Roboto
-    Style: Regular (400)
+  Roboto 
+    Where to use: General text, Body text, Forms
+    Default style: font-weight: 400
 
-    6. Secondary Body Text / Small Text:
-    Font: Source Sans Pro
-    Style: Regular (400)
+  Source Sans Pro 
+    Where to use: Content blocks, Subtext, Footers
+    Default style: font-weight: 400
 
-    7. Captions / Footnotes:
-    Font: Noto Sans
-    Style: Regular (400)
+  Noto Sans 
+    Where to use: Multilingual text, Accessibility elements
+    Default style: font-weight: 400
 
-    8. Buttons / UI Elements:
-    Font: Poppins
-    Style: Medium (500)
+  Poppins 
+    Where to use: Captions, Highlights, Labels
+    Default style: font-weight: 500
+
+  Merriweather 
+    Where to use: Article titles, Block quotes, Emphasis text
+    Default style: font-weight: 900
 */
 
 :root {
-  --sprite-url: url('https://s.ltrbxd.com/static/img/content-bg.2f106e08.png');
+  --background-color: #14181c;
+  --primary-color: #678;
+  --secondary-color: whitesmoke;
+
+  /* Form Colors*/
   --form-bg-color: #101316;
-  --login-btn-color: #00ac1c;
-  --login-btn-hvr-color: #009d1a;
   --input-bg-color: #2c3440;
-  --label-color: #678;
+  --input-bg-color-focus: aliceblue;
+
+  /* Button Colors */
+  --button-color: #00ac1c;
+  --button-color-hover: #009d1a;
+
+  --sprite-url: url('https://s.ltrbxd.com/static/img/content-bg.2f106e08.png');
 }
 
 * {
@@ -49,13 +61,8 @@
 }
 
 body {
-  background: #14181c var(--sprite-url) 0 -1px repeat-x;
-}
-
-h1 {
-  font-family: 'Montserrat', sans-serif;
-  color: whitesmoke;
-  margin-bottom: 20px;
+  background: var(--background-color) var(--sprite-url) 0 -1px repeat-x;
+  color: var(--primary-color);
 }
 
 .form-container {
@@ -73,7 +80,6 @@ form {
 }
 
 label {
-  color: var(--label-color);
   font-family: 'Poppins', sans-serif;
 }
 
@@ -89,13 +95,13 @@ input {
 }
 
 input:focus {
-  background-color: aliceblue;
+  background-color: var(--input-bg-color-focus);
 }
 
 button {
   font-family: 'Poppins', sans-serif;
-  color: whitesmoke;
-  background-color: var(--login-btn-color);
+  color: var(--secondary-color);
+  background-color: var(--button-color);
   box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, 0.3);
   border: none;
   padding: 1vh 1.5vw;
@@ -107,12 +113,5 @@ button {
 }
 
 button:hover {
-  background-color: var(--login-btn-hvr-color);
-}
-
-.error {
-  font-family: 'Noto Sans';
-  color: red;
-  text-align: center;
-  margin-top: 10px;
+  background-color: var(--button-color-hover);
 }

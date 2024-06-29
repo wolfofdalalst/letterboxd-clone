@@ -2,8 +2,6 @@
 
 :root {
   --navbar-bg-color: #14181c;
-  --logo-color: #eef0f2;
-  --nav-link-color: #99aabb;
 }
 
 .navbar {
@@ -11,7 +9,6 @@
   justify-content: space-around;
   align-items: center;
   background-color: var(--navbar-bg-color);
-  color: whitesmoke;
   padding: 15px 20vw;
   margin-bottom: 10px;
 }
@@ -35,14 +32,14 @@
 .search-icon,
 .close-icon {
   cursor: pointer;
-  color: var(--nav-link-color);
+  color: var(--primary-color);
   text-decoration: none;
 }
 
 .navbar a:hover,
 .search-icon:hover,
 .close-icon:hover {
-  color: aliceblue;
+  color: var(--secondary-color);
   transition: color 0.1s linear;
 }
 
@@ -52,17 +49,10 @@
 }
 
 .logo > a {
-  color: var(--logo-color);
+  color: var(--secondary-color);
 }
 
 .auth-panel {
   margin-left: 75px;
   width: 15vw;
-}
-
-.logout-btn {
-  margin: 0;
-  margin-left: -4px;
-  font-size: 1rem;
-  padding: 3px 9px;
 }
