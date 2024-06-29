@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
-import toastConfig from '../../config/toastConfig';
+import toastConfig from '@config/toastConfig';
+import AuthService from '@api/AuthService';
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -11,8 +11,6 @@ const RegisterForm = () => {
     email: '',
     password: '',
   });
-  // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   function handleChange(e) {
@@ -27,22 +25,21 @@ const RegisterForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        'http://localhost:1337/api/user',
-        formData
+      await AuthService.register(
+        formData.name,
+        formData.email,
+        formData.password
       );
-      console.log(response);
+      toast.success('User registered. Proceed to login.', toastConfig);
       navigate('/login');
-    } catch (err) {
-      // TODO: handle different errors
-      console.log(err);
+    } catch (error) {
+      toast.error(error.message, toastConfig);
+      console.error(error);
       setFormData({
         name: '',
         email: '',
         password: '',
       });
-      setError('Failed to register, please try again.');
-      toast.error('Failed to register, please try again.');
     }
   }
 

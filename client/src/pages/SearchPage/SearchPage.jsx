@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-
-import './SearchPage.css';
 import SearchMovieCard from './SearchMovieCard/SearchMovieCard';
 
+import './SearchPage.css';
+
 const SearchPage = ({ search }) => {
-  const [movieArray, setMovieArray] = useState([]);
+  const [popularMovies, setPopularMoviesularMovies] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,7 +15,7 @@ const SearchPage = ({ search }) => {
           { withCredentials: true }
         );
         console.log(data);
-        setMovieArray(data);
+        setPopularMoviesularMovies(data);
       } catch (error) {
         console.error(error);
       }
@@ -29,7 +29,7 @@ const SearchPage = ({ search }) => {
         <p className='search-heading'>
           Results matching for &apos;{search}&apos;
         </p>
-        {movieArray.map((movie, index) => (
+        {popularMovies.map((movie, index) => (
           <SearchMovieCard
             key={index}
             movie={movie}

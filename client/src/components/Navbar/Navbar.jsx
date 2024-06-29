@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/letterboxd-logo.png';
-import LogoutButton from '../LogoutButton/LogoutButton';
+
+import logo from '@assets/letterboxd-logo.png';
+import LogoutButton from '@components/LogoutButton/LogoutButton';
 import SearchBar from './SearchBar/SearchBar';
 
 import './Navbar.css';

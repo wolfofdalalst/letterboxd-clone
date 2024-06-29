@@ -1,10 +1,10 @@
-.movie-card > img {
+.movie-card img {
   width: 100%;
   border-radius: 5px 5px 0 0;
   display: block;
 }
 
-.movie-card > p {
+.movie-card p {
   color: var(--secondary-color);
   background-color: #060708;
   border-radius: 0 0 5px 5px;

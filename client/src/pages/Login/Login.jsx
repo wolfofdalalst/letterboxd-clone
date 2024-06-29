@@ -1,18 +1,15 @@
-/* eslint-disable react/prop-types */
-import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
-import toastConfig from '../../config/toastConfig.js';
+import AuthService from '@api/AuthService';
+import toastConfig from '@config/toastConfig';
 
 const LoginForm = ({ updateIsLogged }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
-  // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   function handleChange(e) {
@@ -21,24 +18,19 @@ const LoginForm = ({ updateIsLogged }) => {
       ...formData,
       [name]: value,
     });
-    setError(null);
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:1337/api/user/auth', formData, {
-        withCredentials: true,
-      });
+      await AuthService.login(formData.email, formData.password);
       updateIsLogged(true);
       navigate('/');
-    } catch (err) {
-      // TODO: check for different cases of errors
-      console.error('error while logging', err);
-      setError('incorrect username or password');
+    } catch (error) {
+      toast.error(error.message, toastConfig);
+      console.log(error);
       setFormData({ email: '', password: '' });
-      toast.error('incorrect username or password');
       updateIsLogged(false);
     }
   }
@@ -63,7 +55,6 @@ const LoginForm = ({ updateIsLogged }) => {
         />
         <button type='submit'>SIGN IN</button>
       </form>
-      <ToastContainer {...toastConfig} />
     </div>
   );
 };

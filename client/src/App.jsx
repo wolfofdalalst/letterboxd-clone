@@ -1,16 +1,17 @@
-import { Route, Routes } from 'react-router-dom';
-import RegisterForm from './pages/Register/Register.jsx';
-import LoginForm from './pages/Login/Login.jsx';
-import Dashboard from './pages/Dashboard/Dashboard.jsx';
-import Navbar from './components/Navbar/Navbar.jsx';
-
-import './App.css';
-import 'react-toastify/dist/ReactToastify.css';
-import SearchPage from './pages/SearchPage/SearchPage.jsx';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
-import MoviePage from './pages/MoviePage/MoviePage.jsx';
+import { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
+import Navbar from './components/Navbar/Navbar.jsx';
+import Dashboard from './pages/Dashboard/Dashboard.jsx';
+import LoginForm from './pages/Login/Login.jsx';
+import MoviePage from './pages/MoviePage/MoviePage.jsx';
+import RegisterForm from './pages/Register/Register.jsx';
+import SearchPage from './pages/SearchPage/SearchPage.jsx';
+
+import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
+import { ToastContainer } from 'react-toastify';
 // TODO: implement react spinners
 // BUG: upon reloading the state loginStatus is set to its default value, false
 
@@ -63,6 +64,7 @@ function App() {
           element={<MoviePage />}
         />
       </Routes>
+      <ToastContainer />
       {/* TODO: create footer */}
     </>
   );

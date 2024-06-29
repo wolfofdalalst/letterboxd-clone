@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { FaSearch, FaPlus } from 'react-icons/fa';
+import { FaPlus, FaSearch } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 import './SearchBar.css';
-import { useNavigate } from 'react-router-dom';
 
 function SearchBar({ updateSearch }) {
   const [value, setValue] = useState('');
@@ -19,11 +19,11 @@ function SearchBar({ updateSearch }) {
     if (event.key === 'Enter') {
       updateSearch(value);
       setSearchClicked(false);
-      navigate("/search");
+      navigate('/search');
     } else if (event.key === 'Escape') {
       setSearchClicked(false);
     }
-  }
+  };
 
   return (
     <>

@@ -1,4 +1,4 @@
-import apiClient from '../config/apiConfig';
+import apiClient from "@config/apiConfig";
 
 /**
  * AuthService module to handle authentication related API calls.

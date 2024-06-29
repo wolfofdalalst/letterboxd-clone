@@ -1,71 +1,63 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { FaBolt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+
+import MovieService from '@api/MovieService';
 import MovieCard from './MovieCard/MovieCard';
 
 import './Dashboard.css';
-import { FaBolt } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import toastConfig from '@config/toastConfig';
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
   const [movieArray, setMovieArray] = useState([]);
-  const [activityArray, setActivityArray] = useState([]);
-
-  const config = { withCredentials: true };
-
+  const [activity, setActivity] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
+    // Function to fetch user profile and popular movies on component mount
     const fetchData = async () => {
       try {
-        const profileResponse = await axios.get(
-          'http://localhost:1337/api/user/profile',
-          config
-        );
-        setUserData(profileResponse.data);
-        const movieResponse = await axios.get(
-          'http://localhost:1337/api/movie/popular',
-          config
-        );
-        setMovieArray(movieResponse.data);
+        const userDataResponse = await MovieService.userProfile();
+        setUserData(userDataResponse);
+
+        const popularMoviesResponse = await MovieService.popularMovies();
+        setMovieArray(popularMoviesResponse);
       } catch (error) {
-        console.error('error while getting list of popular movies');
-        navigate('/login');
+        toast.error(error, toastConfig);
+        console.error(error);
+        navigate('/login'); // Redirect to login page on error
       }
     };
 
+    fetchData();
+  }, [navigate]);
+
+  useEffect(() => {
+    // Function to fetch user activity based on userData changes
     const fetchActivity = async () => {
       try {
-        let {
-          data: { watched: watchedArray },
-        } = await axios.get('http://localhost:1337/api/user/profile', {
-          withCredentials: true,
-        });
-        watchedArray = watchedArray.filter(
-          (value) => typeof value === 'number'
-        );
-        watchedArray = await Promise.all(
-          watchedArray.map(
-            async (value) =>
-              (
-                await axios.get(
-                  `http://localhost:1337/api/movie/details/${value}`,
-                  { withCredentials: true }
-                )
-              ).data
-          )
-        );
-        setActivityArray(watchedArray.slice(0, 5));
+        if (userData) {
+          const updatedActivty = await Promise.all(
+            userData.watched.map(
+              async (id) => await MovieService.movieDetails(id)
+            )
+          );
+          // First 5 watched movies
+          setActivity(updatedActivty.slice(0, 5));
+        }
       } catch (error) {
+        toast.error(error, toastConfig);
         console.error(error);
       }
     };
     fetchActivity();
-    fetchData();
-  }, []);
+  }, [userData]);
 
   return (
     <div className='dashboard'>
+      {/* Header section displaying user name */}
       <h1 className='welcome'>
         Welcome back,{' '}
         <span className='name'>
@@ -73,37 +65,33 @@ const Dashboard = () => {
         </span>
         . Here&apos;s what we&apos;ve been watching...
       </h1>
-      {activityArray.length > 0 && (
+
+      {/* Display user activity if available */}
+      {activity.length > 0 && (
         <>
           <p className='section-heading'>
             your activity <FaBolt className='bolt' />
           </p>
           <div className='activity-container'>
-            {activityArray.map((movie, index) => (
+            {activity.map((movie, index) => (
               <MovieCard
                 key={index}
-                id={movie.id}
-                name={movie.title}
-                poster_path={movie.poster_path}
-                year={new Date(movie.release_date).getFullYear()}
+                movie={movie}
               />
             ))}
           </div>
         </>
       )}
+
+      {/* Section displaying popular movies */}
       <p className='section-heading'>popular on letterboxd</p>
       <div className='popular-container'>
-        {movieArray.map((movie, index) => {
-          return (
-            <MovieCard
-              key={index}
-              id={movie.id}
-              name={movie.title}
-              poster_path={movie.poster_path}
-              year={new Date(movie.release_date).getFullYear()}
-            />
-          );
-        })}
+        {movieArray.map((movie, index) => (
+          <MovieCard
+            key={index}
+            movie={movie}
+          />
+        ))}
       </div>
     </div>
   );

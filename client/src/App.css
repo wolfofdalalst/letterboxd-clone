@@ -79,6 +79,11 @@ form {
   border-radius: 10px;
 }
 
+form > h1 {
+  font-family: 'Montserrat';
+  margin-bottom: 10px;
+}
+
 label {
   font-family: 'Poppins', sans-serif;
 }

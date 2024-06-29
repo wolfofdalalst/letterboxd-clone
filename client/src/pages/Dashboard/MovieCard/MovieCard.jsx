@@ -1,16 +1,19 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import getYear from '@utils/getYear';
+
 import './MovieCard.css';
 
-const MovieCard = ({ id, name, year, poster_path }) => {
-  const navigate = useNavigate();
+const MovieCard = ({ movie }) => {
   return (
-    <div
-      className='movie-card'
-      onClick={() => navigate(`/movie/${id}`)}
-    >
-      <img src={poster_path} />
+    <div className='movie-card'>
+      <Link to={`/movie/${movie.id}`}>
+        <img
+          src={movie.poster_path}
+          alt={`Poster for ${movie.name}`}
+        />
+      </Link>
       <p>
-        {name} ({year})
+        {movie.title} ({getYear(movie.release_date)})
       </p>
     </div>
   );
