@@ -1,22 +1,21 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import SearchMovieCard from './SearchMovieCard/SearchMovieCard';
 
 import './SearchPage.css';
+import MovieService from '@api/MovieService';
+import { toast } from 'react-toastify';
+import toastConfig from '@config/toastConfig';
 
 const SearchPage = ({ search }) => {
-  const [popularMovies, setPopularMoviesularMovies] = useState([]);
+  const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(
-          'http://localhost:1337/api/movie/search/' + search,
-          { withCredentials: true }
-        );
-        console.log(data);
-        setPopularMoviesularMovies(data);
+        const searchResponse = await MovieService.searchMovie(search);
+        setMovies(searchResponse);
       } catch (error) {
+        toast.error(error.message, toastConfig);
         console.error(error);
       }
     };
@@ -29,7 +28,7 @@ const SearchPage = ({ search }) => {
         <p className='search-heading'>
           Results matching for &apos;{search}&apos;
         </p>
-        {popularMovies.map((movie, index) => (
+        {movies.map((movie, index) => (
           <SearchMovieCard
             key={index}
             movie={movie}

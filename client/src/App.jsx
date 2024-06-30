@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
@@ -12,27 +11,18 @@ import SearchPage from './pages/SearchPage/SearchPage.jsx';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
+import MovieService from '@api/MovieService.js';
+
 // TODO: implement react spinners
-// BUG: upon reloading the state loginStatus is set to its default value, false
 
 function App() {
   let [isLogged, setIsLogged] = useState(false);
   let [search, setSearch] = useState([]);
 
   useEffect(() => {
-    const fetchLogin = async () => {
-      try {
-        const response = await axios.get(
-          'http://localhost:1337/api/user/profile',
-          { withCredentials: true }
-        );
-        setIsLogged(response.status === 200);
-      } catch (error) {
-        console.error('not logged in', error);
-        setIsLogged(false);
-      }
-    };
-    fetchLogin();
+    MovieService.userProfile()
+      .then(() => setIsLogged(true))
+      .catch(() => setIsLogged(false));
   }, []);
 
   return (

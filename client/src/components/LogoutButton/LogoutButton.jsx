@@ -14,7 +14,7 @@ const LogoutButton = ({ updateIsLogged }) => {
       toast.success('Logout succesful!', toastConfig);
       navigate('/login');
     } catch (error) {
-      toast.error(error, toastConfig);
+      toast.error(error.message, toastConfig);
       console.error(error);
     } finally {
       updateIsLogged(false);

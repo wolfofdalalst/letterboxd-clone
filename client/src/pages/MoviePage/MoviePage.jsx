@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
   FaClock,
@@ -12,99 +11,69 @@ import {
 } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
+import getYear from '@utils/getYear';
+
+import MovieService from '@api/MovieService';
+import toastConfig from '@config/toastConfig';
+import { toast } from 'react-toastify';
 import './MoviePage.css';
 
+// TODO: add support for half ratings
 const MoviePage = () => {
   const [movie, setMovie] = useState(null);
-  const [watched, setWatched] = useState(false);
-  const [liked, setLiked] = useState(false);
-  const [watchList, setWatchList] = useState(false);
+  const [userInteraction, setUserInteraction] = useState({
+    watched: false,
+    liked: false,
+    watchList: false,
+  });
 
-  let rating = Math.ceil(movie?.vote_average / 2);
-  if (Number.isNaN(rating)) rating = 0;
+  const rating = Math.ceil(movie?.vote_average / 2) || 0;
 
-  const id = Number(useParams().id);
-  const axiosParams = (action) => [
-    'http://localhost:1337/api/user/profile',
-    { [action]: Number(id) },
-    { withCredentials: true },
-  ];
+  const { id } = useParams();
+  const movieId = Number(id);
+
+  const handleUserInteraction = async (action) => {
+    try {
+      const actionResponse = userInteraction[action]
+        ? await MovieService.patchMovieAction(movieId, action) 
+        : await MovieService.postMovieAction(movieId, action);
+      setUserInteraction((prev) => ({
+        ...prev,
+        [action]: !prev[action],
+      }));
+      console.log(actionResponse);
+    } catch (error) {
+      console.error(`Error updating ${action}`, error);
+    }
+  };
 
   useEffect(() => {
-    const fetchMovieData = async () => {
+    const fetchMovie = async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:1337/api/movie/details/${id}`,
-          { withCredentials: true }
-        );
-        setMovie(data);
+        const movieResponse = await MovieService.movieDetails(movieId);
+        setMovie(movieResponse);
       } catch (error) {
+        toast.error(error.message, toastConfig);
         console.error(error);
       }
     };
-    const fetchUserData = async () => {
+
+    const fetchUser = async () => {
       try {
-        const { data } = await axios.get(
-          'http://localhost:1337/api/user/profile',
-          {
-            withCredentials: true,
-          }
-        );
-        setLiked(data.liked.includes(id));
-        setWatched(data.watched.includes(id));
-        setWatchList(data.watchlist.includes(id));
+        const user = await MovieService.userProfile();
+        setUserInteraction({
+          liked: user.liked.includes(movieId),
+          watched: user.watched.includes(movieId),
+          watchList: user.watchlist.includes(movieId),
+        });
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching user data:', error);
       }
     };
-    fetchUserData();
-    fetchMovieData();
-  }, [id]);
 
-  const handleWatch = async () => {
-    let response = null;
-    try {
-      if (watched) {
-        response = await axios.patch(...axiosParams('watched'));
-      } else {
-        response = await axios.post(...axiosParams('watched'));
-      }
-      setWatched((prev) => !prev);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleLike = async () => {
-    let response = null;
-    try {
-      if (liked) {
-        response = await axios.patch(...axiosParams('liked'));
-      } else {
-        response = await axios.post(...axiosParams('liked'));
-      }
-      setLiked((prev) => !prev);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleWatchList = async () => {
-    let response = null;
-    try {
-      if (watchList) {
-        response = await axios.patch(...axiosParams('watchlist'));
-      } else {
-        response = await axios.post(...axiosParams('watchlist'));
-      }
-      setWatchList((prev) => !prev);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    fetchUser();
+    fetchMovie();
+  }, [movieId]);
 
   return (
     <div className='movie-page'>
@@ -113,23 +82,24 @@ const MoviePage = () => {
           <img
             className='movie-poster'
             src={movie?.poster_path}
+            alt={`${movie?.title} poster`}
           />
         </div>
         <div className='text'>
           <p className='movie-title'>
             {movie?.title}
-            <span className='movie-year'>{movie?.release_date}</span>
+            <span className='movie-year'>{getYear(movie?.release_date)}</span>
           </p>
           <p className='movie-tagline'>{movie?.tagline}</p>
           <p className='movie-overview'>
             {movie?.overview}
             <div className='movie-genre-container'>
-              {movie?.genres.map((value, index) => (
+              {movie?.genres.map((genre, index) => (
                 <div
                   className='movie-genre'
                   key={index}
                 >
-                  {value.name}
+                  {genre.name}
                 </div>
               ))}
             </div>
@@ -139,9 +109,9 @@ const MoviePage = () => {
           <div className='action-row1'>
             <div
               className='watch'
-              onClick={handleWatch}
+              onClick={() => handleUserInteraction('watched')}
             >
-              {watched ? (
+              {userInteraction.watched ? (
                 <>
                   <FaEye className='green-icon' />
                   <p>Watched</p>
@@ -155,9 +125,9 @@ const MoviePage = () => {
             </div>
             <div
               className='like'
-              onClick={handleLike}
+              onClick={() => handleUserInteraction('liked')}
             >
-              {liked ? (
+              {userInteraction.liked ? (
                 <>
                   <FaHeart className='red-icon' />
                   <p>Liked</p>
@@ -171,9 +141,13 @@ const MoviePage = () => {
             </div>
             <div
               className='watch-list'
-              onClick={handleWatchList}
+              onClick={() => handleUserInteraction('watchlist')}
             >
-              {watchList ? <FaClock className='blue-icon' /> : <FaRegClock />}
+              {userInteraction.watchList ? (
+                <FaClock className='blue-icon' />
+              ) : (
+                <FaRegClock />
+              )}
               <p>Watchlist</p>
             </div>
           </div>
@@ -181,7 +155,7 @@ const MoviePage = () => {
             <p>Ratings</p>
             {Array(rating)
               .fill(null)
-              .map((_value, index) => (
+              .map((_, index) => (
                 <FaStar
                   key={index}
                   className='star'
@@ -189,7 +163,7 @@ const MoviePage = () => {
               ))}
             {Array(5 - rating)
               .fill(null)
-              .map((_value, index) => (
+              .map((_, index) => (
                 <FaRegStar
                   key={index}
                   className='star'

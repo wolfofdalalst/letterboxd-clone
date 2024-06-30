@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import './SearchBar.css';
 
-function SearchBar({ updateSearch }) {
+const SearchBar = ({ updateSearch }) => {
   const [value, setValue] = useState('');
   const [searchClicked, setSearchClicked] = useState(false);
 
@@ -51,6 +51,6 @@ function SearchBar({ updateSearch }) {
       )}
     </>
   );
-}
+};
 
 export default SearchBar;
