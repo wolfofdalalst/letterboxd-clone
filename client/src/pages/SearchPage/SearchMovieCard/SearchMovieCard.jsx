@@ -16,7 +16,7 @@ const SearchMovieCard = ({ movie }) => {
       <p className='movie-title'>
         {movie.title}
         <span className='movie-year'>
-          {new Date(movie.release_date).getFullYear()}
+          {new Date(movie.release_date).getFullYear() || ''}
         </span>
       </p>
       <p className='movie-overview'>{movie.overview}</p>

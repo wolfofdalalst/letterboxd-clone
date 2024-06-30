@@ -23,7 +23,7 @@ const Dashboard = () => {
         setUser(userResponse);
 
         const popularMoviesResponse = await MovieService.popularMovies();
-        setMovieArray(popularMoviesResponse);
+        setMovieArray(popularMoviesResponse ?? []);
       } catch (error) {
         toast.error(error.message, toastConfig);
         console.error(error);
@@ -38,14 +38,14 @@ const Dashboard = () => {
     // Function to fetch user activity based on user changes
     const fetchActivity = async () => {
       try {
-        if (user) {
+        if (user && user.watched) {
           const updatedActivty = await Promise.all(
             user.watched.map(
               async (id) => await MovieService.movieDetails(id)
             )
           );
           // First 5 watched movies
-          setActivity(updatedActivty.slice(0, 5));
+          setActivity(updatedActivty.slice(0, 5) ?? []);
         }
       } catch (error) {
         toast.error(error.message, toastConfig);

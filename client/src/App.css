@@ -67,7 +67,7 @@ body {
 
 .form-container {
   display: grid;
-  height: 100vh;
+  height: 85vh;
   place-items: center;
 }
 

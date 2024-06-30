@@ -88,7 +88,7 @@ const MoviePage = () => {
         <div className='text'>
           <p className='movie-title'>
             {movie?.title}
-            <span className='movie-year'>{getYear(movie?.release_date)}</span>
+            <span className='movie-year'>{getYear(movie?.release_date) || ''}</span>
           </p>
           <p className='movie-tagline'>{movie?.tagline}</p>
           <p className='movie-overview'>

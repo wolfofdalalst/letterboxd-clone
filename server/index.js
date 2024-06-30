@@ -1,17 +1,22 @@
-import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
+import express from 'express';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
+import cookieParser from 'cookie-parser';
 import { connectDB } from './config.js';
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
-import userRouter from './routes/userRoute.js';
-import cookieParser from 'cookie-parser';
 import movieRouter from './routes/movieRoute.js';
+import userRouter from './routes/userRoute.js';
 
 connectDB();
 
 const app = express();
 const port = process.env.PORT || 8000;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 app.use(
   cors({
@@ -22,6 +27,12 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+});
 
 app.use('/api/user', userRouter);
 app.use('/api/movie', movieRouter);
