@@ -2,6 +2,8 @@
 
 This project is a clone of Letterboxd, featuring an Express.js backend and a React+Vite frontend. It utilizes [The Movie Database (TMDB)](https://www.themoviedb.org/) API for movie data.
 
+![](https://raw.githubusercontent.com/wolfofdalalst/letterboxd-clone/master/assets/demo.gif)
+
 ## Features
 
 - User authentication and profile management

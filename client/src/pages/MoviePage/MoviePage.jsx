@@ -24,7 +24,7 @@ const MoviePage = () => {
   const [userInteraction, setUserInteraction] = useState({
     watched: false,
     liked: false,
-    watchList: false,
+    watchlist: false,
   });
 
   const rating = Math.ceil(movie?.vote_average / 2) || 0;
@@ -35,13 +35,16 @@ const MoviePage = () => {
   const handleUserInteraction = async (action) => {
     try {
       const actionResponse = userInteraction[action]
-        ? await MovieService.patchMovieAction(movieId, action) 
+        ? await MovieService.patchMovieAction(movieId, action)
         : await MovieService.postMovieAction(movieId, action);
       setUserInteraction((prev) => ({
         ...prev,
         [action]: !prev[action],
       }));
       console.log(actionResponse);
+      userInteraction[action]
+        ? toast.info(`${movie.title} removed from ${action}`, toastConfig)
+        : toast.success(`${movie.title} added to ${action}`, toastConfig);
     } catch (error) {
       console.error(`Error updating ${action}`, error);
     }
@@ -64,7 +67,7 @@ const MoviePage = () => {
         setUserInteraction({
           liked: user.liked.includes(movieId),
           watched: user.watched.includes(movieId),
-          watchList: user.watchlist.includes(movieId),
+          watchlist: user.watchlist.includes(movieId),
         });
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -88,7 +91,9 @@ const MoviePage = () => {
         <div className='text'>
           <p className='movie-title'>
             {movie?.title}
-            <span className='movie-year'>{getYear(movie?.release_date) || ''}</span>
+            <span className='movie-year'>
+              {getYear(movie?.release_date) || ''}
+            </span>
           </p>
           <p className='movie-tagline'>{movie?.tagline}</p>
           <p className='movie-overview'>
@@ -143,7 +148,7 @@ const MoviePage = () => {
               className='watch-list'
               onClick={() => handleUserInteraction('watchlist')}
             >
-              {userInteraction.watchList ? (
+              {userInteraction.watchlist ? (
                 <FaClock className='blue-icon' />
               ) : (
                 <FaRegClock />
