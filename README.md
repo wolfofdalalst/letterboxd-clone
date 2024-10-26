@@ -2,6 +2,13 @@
 
 This project is a clone of Letterboxd, featuring an Express.js backend and a React.js frontend. It utilizes [The Movie Database (TMDB)](https://www.themoviedb.org/) API for movie data.
 
+![License](https://img.shields.io/github/license/wolfofdalalst/letterboxd-clone?style=for-the-badge)
+![Stars](https://img.shields.io/github/stars/wolfofdalalst/letterboxd-clone?style=for-the-badge)
+![Issues](https://img.shields.io/github/issues/wolfofdalalst/letterboxd-clone?style=for-the-badge)
+![Forks](https://img.shields.io/github/forks/wolfofdalalst/letterboxd-clone?style=for-the-badge)
+
+# Demo
+
 ![](https://raw.githubusercontent.com/wolfofdalalst/letterboxd-clone/master/assets/demo.gif)
 
 ## Features
