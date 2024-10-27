@@ -9,6 +9,14 @@ This project is a clone of Letterboxd, featuring an Express.js backend and a Rea
   <img src="https://img.shields.io/github/forks/wolfofdalalst/letterboxd-clone?color=teal&style=for-the-badge">
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAF">
+  <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB">
+  <img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white">
+  <img src="https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white">
+</p>
+
+
 # Demo
 
 ![](https://raw.githubusercontent.com/wolfofdalalst/letterboxd-clone/master/assets/demo.gif)
